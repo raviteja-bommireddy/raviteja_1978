@@ -2,33 +2,36 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: 
+      - main  # Trigger the workflow on push to main branch
   pull_request:
-    branches: [ main ]
+    branches: 
+      - main  # Also trigger on PRs to the main branch (optional)
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
-      
+      uses: actions/checkout@v4  # Checkout the repository code
+
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
-        cache: 'npm'
-        
+        node-version: '18'  # You can change this if needed, but 18 should be fine
+        cache: 'npm'  # Cache npm dependencies to speed up builds
+
     - name: Install dependencies
-      run: npm ci
-      
+      run: npm ci  # Install dependencies using npm ci (clean install)
+
     - name: Build
-      run: npm run build
-      
+      run: npm run build  # This will create your static build output
+
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
-      if: github.ref == 'refs/heads/main'
+      if: github.ref == 'refs/heads/main'  # Ensure this runs only on main branch
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./out
+        github_token: ${{ secrets.GITHUB_TOKEN }}  # Token to authenticate GitHub Actions
+        publish_dir: ./out  # Directory where your build output is stored
+        publish_branch: gh-pages  # Make sure you're deploying to the gh-pages branch
