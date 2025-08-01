@@ -2,10 +2,10 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: 
+    branches:
       - main  # Trigger the workflow on push to main branch
   pull_request:
-    branches: 
+    branches:
       - main  # Also trigger on PRs to the main branch (optional)
 
 jobs:
@@ -34,4 +34,6 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}  # Token to authenticate GitHub Actions
         publish_dir: ./out  # Directory where your build output is stored
-        publish_branch: gh-pages  # Make sure you're deploying to the gh-pages branch
+        publish_branch: gh-pages  # Deploy to the gh-pages branch
+        user_name: 'github-actions'  # Name of the user for commits
+        user_email: 'github-actions@github.com'  # Email of the user for commits
